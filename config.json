@@ -1,0 +1,16 @@
+{
+  "mode": "debug",
+  "service_name": "auth",
+  "http_port": 8080,
+  "jwt_secret": "supersecretkey",
+  "enable_redis_tls_mode": true,
+  "db_config": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "example_db",
+    "user": "db_user",
+    "pass": "db_password",
+    "max_idle_time_in_minute": 10,
+    "enable_ssl_mode": false
+  }
+}
