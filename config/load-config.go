@@ -45,6 +45,7 @@ func loadConfig() error {
 		},
 		RedisUrl:     viper.GetString("REDIS_URL"),
 		RedisTlsMode: viper.GetBool("REDIS_TLS_MODE"),
+		MigrationSource: viper.GetString("MIGRARION_SOURCE"),
 	}
 
 	v := validator.New()

@@ -39,6 +39,7 @@ type Config struct {
 	Mail               Email    `json:"mail_config"                      validate:"required"`
 	RedisUrl           string   `json:"redis_url"                        validate:"required"`
 	RedisTlsMode       bool     `json:"redis_tls_mode"`
+	MigrationSource    string   `json:"migrations"`
 }
 
 var config *Config

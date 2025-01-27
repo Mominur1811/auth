@@ -10,8 +10,9 @@ import (
 	"auth-repo/rest"
 	"auth-repo/rest/handlers"
 	"auth-repo/rest/utils"
-	"github.com/spf13/cobra"
 	"log/slog"
+
+	"github.com/spf13/cobra"
 )
 
 var serveRestCmd = &cobra.Command{
@@ -34,7 +35,7 @@ func serveRest(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	db, err := repo.ConnectDb(conf)
+	db, err := repo.MigrateDB(conf)
 	if err != nil {
 		slog.Error("Unable to connect to database", logger.Extra(map[string]any{
 			"error": err.Error(),

@@ -3,10 +3,14 @@ package repo
 import (
 	"auth-repo/config"
 	"fmt"
+	"log/slog"
+	"os"
+	"time"
+
 	sq "github.com/Masterminds/squirrel"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-	"time"
+	migrate "github.com/rubenv/sql-migrate"
 )
 
 type db struct {
@@ -45,14 +49,22 @@ func connect(dbConfig config.DBConfig) (*sqlx.DB, error) {
 	return dbCon, nil
 }
 
-func ConnectDb(conf *config.Config) (*db, error) {
+func MigrateDB(conf *config.Config) (*db, error) {
 
 	dbCon, err := connect(conf.DB)
+
+	migrations := &migrate.FileMigrationSource{
+		Dir: conf.MigrationSource,
+	}
+
+	_, err = migrate.Exec(dbCon.DB, "postgres", migrations, migrate.Up)
 	if err != nil {
-		return nil, err
+		slog.Error(err.Error())
+		os.Exit(1)
 	}
 
 	psql := sq.StatementBuilder.PlaceholderFormat(sq.Dollar)
+	slog.Info("Successfully migrated database")
 
 	return &db{dbCon, psql}, nil
 }
